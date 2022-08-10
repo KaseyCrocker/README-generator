@@ -1,7 +1,9 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const util = require('util');
+
+const generateMarkdown = require('./utils/generateMarkdown.js');
+
 // TODO: Create an array of questions for user input
 const questions = [
     {
@@ -32,7 +34,7 @@ const questions = [
         type: 'input',
         message: 'What is the title of your project?',
         name: 'title',
-        default: 'Project Title',
+        default: 'README-generator',
         validate: function (answer) {
             if (answer.length < 1) {
                 return console.log('A valid project title is required.');
@@ -81,7 +83,15 @@ const questions = [
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, err => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log('Success! Your READ.me file has been generated!')
+    });
+}
 
 // TODO: Create a function to initialize app
 async function init() {
@@ -89,6 +99,9 @@ async function init() {
         const userResponses = await inquirer.prompt(questions)
         console.log('Your responses: ', userResponses)
         console.log("Thank you for your responses! Fetching your GitHub data next...");
+        
+        const readMeFile = generateMarkdown(userResponses)
+        writeToFile('.ExampleREADME.md', readMeFile)
     } catch (error) {
         console.log(error)
     }
