@@ -98,7 +98,6 @@ async function init() {
     try {
         const userResponses = await inquirer.prompt(questions)
         console.log('Your responses: ', userResponses)
-        console.log("Thank you for your responses! Fetching your GitHub data next...");
         
         const readMeFile = generateMarkdown(userResponses)
         writeToFile('.ExampleREADME.md', readMeFile)
@@ -110,4 +109,3 @@ async function init() {
 // Function call to initialize app
 init();
 
-//questions().then(answers => console.log(answers));
